@@ -28,7 +28,7 @@ sys.setswitchinterval(1)
 from ctypes import windll
 timeBeginPeriod = windll.winmm.timeBeginPeriod
 #set windows system timer to 1mS tick
-#So I guess this won't work on a Mac or Linux??
+
 timeBeginPeriod(1)
 slug_factor = 1.5
 frameTime = 0.02 * slug_factor
@@ -629,9 +629,18 @@ class StarFieldTask(threading.Thread):
 
 ########################################
 class MouseGrapWin(GraphWin):
-    """This extends GraphWin to provide mouse x y without click"""
+    """
+        This extends GraphWin to provide mouse x y without click
+        It gets rid of the title bar and positions the window top left
+    """
     def __init__(self, *args):
         super(MouseGrapWin, self).__init__(*args)
+        #Position the window top left
+        self.master.geometry("+0+0")
+        #Hide Titlebar
+        self.master.wm_overrideredirect(True)
+        #Make sure you've got control
+        self.master.focus_force()
         self.bind('<Motion>', self._mmotion)
         self.mouse_x = 0
         self.mouse_y = 0
