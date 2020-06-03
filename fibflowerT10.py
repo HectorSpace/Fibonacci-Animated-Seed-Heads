@@ -22,6 +22,8 @@ Original seedhead threaded code.
 
 from graphics import *
 import math, random, queue, time, threading, os
+
+
 #import sys
 sys.setswitchinterval(1)
 
@@ -633,10 +635,19 @@ class MouseGrapWin(GraphWin):
         This extends GraphWin to provide mouse x y without click
         It gets rid of the title bar and positions the window top left
     """
+    global winWdth
+    global winHt    
     def __init__(self, *args):
         super(MouseGrapWin, self).__init__(*args)
-        #Position the window top left
-        self.master.geometry("+0+0")
+
+        # Get the screen which contains top
+        w, h = self.master.winfo_screenwidth(), self.master.winfo_screenheight()
+        print(f"Screen width {w} Screen height {h}")
+        #Set window display to actual screen size and position the window top left
+        self.master.geometry(f"{w}x{h}+0+0")
+        winWdth = w
+        winHt = h
+        
         #Hide Titlebar
         self.master.wm_overrideredirect(True)
         #Make sure you've got control
@@ -651,7 +662,6 @@ class MouseGrapWin(GraphWin):
 
     def mouse_xy(self):
         return(self.mouse_x, self.mouse_y)
-
 
 
 ########################################
